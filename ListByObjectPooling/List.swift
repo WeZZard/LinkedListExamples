@@ -18,21 +18,20 @@ public struct List<Element> {
     }
     
     public mutating func push(_ element: Element) {
-        _withDedicatedStorage { (storage) in
-            storage.push(element)
-        }
+        _ensureDedicatedStorage()
+        _storage.push(element)
     }
     
     @discardableResult
     public mutating func pop() -> Element {
-        return _withDedicatedStorage { (storage) in storage.pop() }
+        _ensureDedicatedStorage()
+        return _storage.pop()
     }
     
-    internal mutating func _withDedicatedStorage<R>(_ closure: (inout _ListStorage<Element>) -> R) -> R {
+    internal mutating func _ensureDedicatedStorage() {
         if !isKnownUniquelyReferenced(&_storage) {
             _storage = _ListStorage(_storage)
         }
-        return closure(&_storage)
     }
 }
 

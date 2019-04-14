@@ -47,8 +47,8 @@ class ListByObjectPoolingTests: XCTestCase {
         XCTAssertTrue(list1._storage === list2._storage)
     }
     
-    // MARK: with Dedicated Storage
-    func test_withDedicatedStorage_copiesStorage() {
+    // MARK: Ensure Dedicated Storage
+    func test_ensureDedicatedStorage_copiesStorage() {
         var list1 = List<Int>()
         
         XCTAssertTrue(isKnownUniquelyReferenced(&list1._storage))
@@ -61,7 +61,7 @@ class ListByObjectPoolingTests: XCTestCase {
         
         XCTAssertTrue(list1._storage === list2._storage)
         
-        list2._withDedicatedStorage({ _ in })
+        list2._ensureDedicatedStorage()
         
         XCTAssertTrue(isKnownUniquelyReferenced(&list1._storage))
         
