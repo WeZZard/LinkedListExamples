@@ -143,5 +143,58 @@ class ListByObjectPoolingTests: XCTestCase {
         
         XCTAssertEqual(peeked, 1)
     }
+    
+    // MARK: Collection
+    func testSubscript_returnsElementAtIndex() {
+        list.push(0)
+        list.push(1)
+        list.push(2)
+        
+        let i1 = list.startIndex
+        let i2 = list.index(after: i1)
+        let i3 = list.index(after: i2)
+        
+        XCTAssertEqual(list[i1], 2)
+        XCTAssertEqual(list[i2], 1)
+        XCTAssertEqual(list[i3], 0)
+    }
+    
+    func testIndexAfter_increasesOffset() {
+        let i1 = list.startIndex
+        let i2 = list.index(after: i1)
+        
+        XCTAssertTrue(i2._offset - 1 == i1._offset)
+    }
+    
+    func testStartIndex_returnsIndexOfOffsetAtZero() {
+        let i = list.startIndex
+        
+        XCTAssertEqual(i._offset, 0)
+    }
+    
+    func testEndIndex_returnsIndexOfOffsetAtZero_withNoContent() {
+        let i = list.endIndex
+        
+        XCTAssertEqual(i._offset, 0)
+    }
+    
+    func testEndIndex_returnsIndexOfOffsetAtPastTheEnd_withContents() {
+        list.push(0)
+        
+        let i = list.endIndex
+        
+        XCTAssertEqual(i._offset, 1)
+    }
+    
+    // MARK: Sequence
+    func testSequence() {
+        list.push(0)
+        list.push(1)
+        list.push(2)
+        
+        let array = Array(list)
+        
+        XCTAssertEqual(array, [2, 1, 0])
+    }
 }
 
