@@ -5,8 +5,6 @@
 //  Created on 2019/4/14.
 //
 
-import Foundation
-
 // MARK: - List
 public struct List<Element> {
     internal var _storage: _ListStorage<Element>
